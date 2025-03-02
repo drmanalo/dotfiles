@@ -8,22 +8,19 @@ fi
 # Don't require escaping globbing characters in zsh.
 unsetopt nomatch
 
-# Enable plugins.
-plugins=(brew history fast-syntax-highlighting history-substring-search zsh-autosuggestions thefuck)
-
 # Custom $PATH with extra locations.
 export PATH=$HOME/Library/Python/3.9/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/sbin:$HOME/bin:$HOME/go/bin:/usr/local/git/bin:$PATH
 
 # Bash-style time output.
 export TIMEFMT=$'\nreal\t%*E\nuser\t%*U\nsys\t%*S'
 
-# Include alias file (if present) containing aliases for ssh, etc.
+# Include alias file (if present)
 if [ -f ~/.aliases ]
 then
   source ~/.aliases
 fi
 
-# Include alias file (if present) containing exports for ssh, etc.
+# Include alias file (if present)
 if [ -f ~/.exports ]
 then
   source ~/.exports
@@ -46,11 +43,6 @@ source ${share_path}/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-# Completions.
-autoload -Uz compinit && compinit
-# Case insensitive.
-zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*'
 
 # Tell homebrew to not autoupdate every single time I run it (just once a week).
 export HOMEBREW_AUTO_UPDATE_SECS=604800
@@ -98,7 +90,7 @@ _fzf_compgen_dir() {
   fd --type=d --hidden --exclude .git . "$1"
 }
 
-source ~/fzf-git.sh/fzf-git.sh
+source $HOME/.config/fzf/fzf-git.sh
 
 show_file_or_dir_preview="if [ -d {} ]; then eza --tree --color=always {} | head -200; else bat -n --color=always --line-range :500 {}; fi"
 
@@ -121,18 +113,13 @@ _fzf_comprun() {
 }
 
 # ----- Bat (better cat) -----
-
 export BAT_THEME=tokyonight_night
 
-# ---- Eza (better ls) -----
-
-alias ls="eza --icons=always"
-
 # ---- TheFuck -----
-
 # thefuck alias
 eval $(thefuck --alias)
 eval $(thefuck --alias fk)
+
 
 # Enter a running podman container.
 function penter() {
